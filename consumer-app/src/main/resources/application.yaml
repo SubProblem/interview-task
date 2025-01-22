@@ -1,0 +1,32 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/consumer-db}
+    username: ${DB_USERNAME:consumer}
+    password: ${DB_PASSWORD:consumer}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: ${BROKER:localhost:9092}
+    consumer:
+      group-id: consumer
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        "[spring.json.trusted.packages]": "org.task.dto"
+      listener:
+        concurrency: ${THREAD_NUMBER:4}
+
