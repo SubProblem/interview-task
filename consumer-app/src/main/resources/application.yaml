@@ -27,6 +27,6 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         "[spring.json.trusted.packages]": "org.task.dto"
-      listener:
-        concurrency: ${THREAD_NUMBER:4}
+    listener:
+      concurrency: ${THREAD_NUMBER:4}
 
